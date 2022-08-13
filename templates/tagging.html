@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Tag tool
+{% endblock %}
+
+{% block body %}
+<div class="container-xxl mt-3">
+    <div class="row">
+      <div class="col">
+        <h3 class="text-center">Tagging Panel</h3>
+        <!-- reading the feedback -->
+        <h4>Feedback:</h4>
+        <blockquote class="blockquote">
+          <p> {{ f_data[f_counter]["feedback"] }} </p>
+        </blockquote>
+
+        <div class="decision-container mt-4">
+            <form action="/tagging" method="post">
+              <div>
+                <input type="radio" id="btn-pos" name="pos-neg" autocomplete="off" class="btn-check btn-positive" value="positive">
+                <label class="btn btn-outline-success" for="btn-pos">Positive</label>
+
+                <input type="radio" id="btn-neg" name="pos-neg" autocomplete="off" class="btn-check btn-negative" value="negative">
+                <label class="btn btn-outline-danger" for="btn-neg">Negative</label>
+              </div>
+              <div class="mt-4">
+                <input type="radio" id="btn-it" autocomplete="off" class="btn-check btn-it" value="IT">
+                <label class="btn btn-outline-primary" for="btn-it">IT</label>
+
+                <input type="radio" id="btn-le" autocomplete="off" class="btn-check btn-legal" value="Legal">
+                <label class="btn btn-outline-dark" for="btn-le">Legal</label>
+
+                <input type="radio" id="btn-ma" autocomplete="off" class="btn-check btn-marketing" value="Marketing">
+                <label class="btn btn-outline-info" for="btn-ma">Marketing</label>
+                </div>
+              <button type="submit" class="btn btn-primary mt-4" name="btn_increase" value="increase">Next -></button>
+            </form>
+          </div>
+        <div class="decision-container mt-4">
+        </div>
+      </div>
+
+      <div class="col">
+
+        <h3 class="text-center">"Database" View</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Nick</th>
+                <th scope="col">Pos/Neg</th>
+                <th scope="col">Department</th>
+                <th scope="col">Text</th>
+              </tr>
+            </thead>
+            <!-- generating table -->
+            <tbody>
+              {% for row in s_data %}
+              <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+
+            </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+<!-- JS that is adding chosen attribute to the button, so it's value can be passed to
+app.py and then departament/decision is being set! -->
+
+<script>
+
+    const it = document.querySelector('.btn-it');
+    const leg = document.querySelector('.btn-legal');
+    const mar = document.querySelector('.btn-marketing');
+
+    it.addEventListener('click', function(){
+        it.setAttribute('name','chosen')
+        if(leg.hasAttribute('name')){
+            leg.removeAttribute('name');
+        }
+        if(mar.hasAttribute('name')){
+            mar.removeAttribute('name');
+        }
+    })
+
+    leg.addEventListener('click', function(){
+        leg.setAttribute('name','chosen')
+        if(it.hasAttribute('name')){
+            it.removeAttribute('name');
+        }
+        if(mar.hasAttribute('name')){
+            mar.removeAttribute('name');
+        }
+    })
+
+    mar.addEventListener('click', function(){
+        mar.setAttribute('name','chosen')
+        if(it.hasAttribute('name')){
+            it.removeAttribute('name');
+        }
+        if(leg.hasAttribute('name')){
+            leg.removeAttribute('name');
+        }
+    })
+
+</script>
+{% endblock %}

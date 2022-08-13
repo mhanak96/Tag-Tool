@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Tag tool
+{% endblock %}
+
+{% block body %}
+<div class="container-xxl mt-3">
+    <div class="row">
+      <div class="col">
+        <h3 class="text-center">Tagging Panel</h3>
+        <h4>Feedback:</h4>
+        <blockquote class="blockquote">
+          <div class="alert alert-success" role="alert">
+            Thank you for your work, you did very well! :)
+          </div>
+        </blockquote>
+        <div class="decision-container mt-4">
+
+          </div>
+        <div class="decision-container mt-4">
+
+
+        </div>
+
+
+
+      </div>
+      <div class="col">
+
+        <h3 class="text-center">"Database" View</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Nick</th>
+                <th scope="col">Pos/Neg</th>
+                <th scope="col">Department</th>
+                <th scope="col">Text</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in s_data %}
+              <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+
+            </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

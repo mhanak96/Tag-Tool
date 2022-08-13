@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Tag tool
+{% endblock %}
+
+{% block body %}
+
+    <h3 class="bl mt-3">What is a Tag Tool?</h3>
+
+        <p class="bl mt-3">Feedback (an opinion form customer about company services) is an important thing for many modern companies. It let's them improve the quality of their services and enable them to avoid costly mistakes
+            in the future. However, customer feedback for its correct implementation requires reaching the right person for example IT team in case of some website error, legal department for potential law violation etc.
+        </p>
+
+        <p class="bl mt-3">This is not a big trobule for small companies, but when the company is really big and is hiring a lot of people, like for example a big ecommerce company which has thousands of comments about it's services every day - this can be a really difficult task. Tag Tool is a special application, which main task is help companies categorize the feedback, so
+            the right people can get to know it and potentialy take action about it.
+        </p>
+
+    <h3 class="bl mt-3">How Tag Tool works?</h3>
+
+        <p class="bl mt-3">During the tagging proces you will make decision, base on your clicks on the buttons: if feedback about the company is good or bad and also what departament should recive it.</p>
+        <button type="button" class="btn btn-primary b-position bl mt-3" onclick="window.location.href='/tagging';">Start tagging!</button>
+        <p class="bl mt-3">When it comes to technical aspects Tag Tool is a small Flask application consisting of:
+            <ul class="bl mt-3">
+                <li>app.py - the most important file here! It is responsible for all the things you see, sucha as: managing values in session, connecting to database, catching and reacting to errors and of course rendering to you all this sites. More about it you can see below.</li>
+                <li>templates folder - folder consisting of: layout.html, index.html, tagging.html and tagged.html - which are sites that you can see yourself</li>
+                <li>static folder - consisting of style.css (application is build on bootstrap, however I sometimes use css, I don't yet know how to do everything in this awesome framework)</li>
+                <li>tagdatabase.db - a database containing opinions table which has 3 rows (id, nick, feedback). Data from it is being used in this application.</li>
+                <li>flask_session folder - storing session values</li>
+            </ul>
+        </p>
+
+    <h5 class="bl mt-3">app.py - specification</h5>
+        <p class="bl mt-3">This file is creating/clearing session when user enters index.html (which is the site you are reading now). Session consist of two types of data:
+            <ul class="bl mt-3">
+                <li>counter - which is required mainly to show the next feedback text in feedback panel. This value is being increased everytime the user press the next button.</li>
+                <li>c_data - which is responsible for storing your tagged results in your session. Application is also using it to generate table on the right on the panel.</li>
+            </ul>
+        </p>
+
+        <p class="bl mt-3">The application was created in such a way that prevents errors: it catches if user didin't clicked the positive/negative button or didn't choose the department at all. It also redirect the user
+        to tagged.html when he finished the tagging process preventing counter from asking endlessly about feedback from database.</p>
+
+        <p class="bl mt-3">The most important thing is however the fact that app.py is putting collected data (from form and database) together and inserting it to the List called "row". Then the raw is being appended() to c_data and
+            passed to tagging.html
+        </p>
+
+    <h5 class="bl mt-3">tagging.html - specification</h5>
+
+        <p class="bl mt-3">This file is responsible for showing the user form inputs and POST them to app.py. This site is being rendered as long as user didin't reach the end
+            of feedback comments (in such a case - app.py is rendering similar page called tagged.html). As mentioned above this page is showing feedback comment in feedback panel collected from database
+            with the id of counter. It also contains 2 for loops, which are responsible for generating the table on the righ of the panel
+        </p>
+
+        <p class="bl mt-3">I think that the most interesting thing on this site are buttons, which are actually not a buttons but radio type of input (to create them i used this <a href="https://getbootstrap.com/docs/5.0/forms/checks-radios/" target="_blank" alt="see how you can make bootsrap buttons as radio type input" >trick</a> from bootstrap documentation).
+        To make them work i also used javascript, which is assigning the name="chosen" attribute to the button currently pressed and then this checkbox value is being sent via POST to app.py, enabling it to collect it's value</p>
+
+        <h3 class="bl mt-3">Special thanks</h3>
+
+        <p class="bl mt-3">To be honest I don't really like python (JS is much better choice for me) but i don't know enough of node.js so I python for my backend.
+            I had some minior problems, but fortunately I found some solution on stackoverflow, so I would like to thank:
+            <ul class="bl mt-3">
+                <li>User: Miguel Grinberg - for an idea of how to create button which sends it's value via POST (especially the if statement in python) <a href="https://stackoverflow.com/questions/19794695/flask-python-buttons" target="_blank" alt="submit button text via POST">link</a> - his code was adapted to work in my application, under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" alt="license CC BY-SA 3.0">CC BY-SA 3.0</a></li>
+                <li>Users: Pablo Castellazzi and Thomas K - for an idea of how to check for an exsistance of value which are being POSTed <a href="https://stackoverflow.com/questions/6362047/how-to-check-if-a-name-value-pair-exists-when-posting-data" target="_blank" alt="check for data exsistance in POST">link</a> - their code solutions were adapted to work in my application, under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" alt="license CC BY-SA 3.0">CC BY-SA 3.0</li>
+            </ul>
+        </p>
+{% endblock %}
